@@ -1,0 +1,79 @@
+(I'm only making this because I have too much free time on my hands, and I guess it's good practice (?) so might as well.)
+-----------------------------------------------------------------------
+
+AUTHOR: BEDRAN YILMAZ BAKAY
+DATE: March 13, 2021
+TIME SPENT WRITING THIS: Surprisingly long, but I wasn't going to do anything else anyway.
+
+-----------------------------------------------------------------------
+
+COMMON METHODS (Used in both ps1a and ps1b)
+
+A. sequence_generator(n)
+
+-This method generates the elements of the sequence given in the instructions.
+-First, it creates an empty list called seq.
+-In the for loop we need to generate n elements, starting from 1 up to and including n. (for i in range(1, n+1))
+-Then we decide if our element is even or not, so we can compute it accordingly. When it's computed, it's appended to seq.
+-Finally, the method returns seq so that it can be used in other methods.
+
+INPUT: 
+n -> number of elements in the sequence provided in the instruction.
+OUTPUT: 
+seq -> list containing elements of the sequence.
+
+-----------------------------------------------------------------------
+
+UNIQUE METHODS
+
+PS1A - brute_force(n, b, total=0):
+
+-First, method calls the sequence_generator method to create the sequence.
+-It uses the inner for loop (line 38) to form the equation given in the instructions.
+-The while loop exists so that when we use 'break' keyword, we remain in the outer for loop.
+-The outer for loop iterates the t in the equation formed in the inner loop.
+-Total is the sum of the elements of the equation. It's initialized in the parameter as 0.
+-Since the first value of t is 1, the first t that satisfies total > B is the minimum value, so we don't need to look anymore.
+-When we find that value, the function returns t.
+-If total ends up smaller than B, we reset it back to 0 so we can get the sum of the next equation correctly. We then use break to return to the outer loop, where t is incremented so we get the next equation.
+
+INPUTS: Both of the following:
+n -> number of elements in the sequence 
+B -> the value the equation needs to pass.
+
+
+OUTPUTS: ONE of the following:
+t -> the minimum value of T that satisfies the equation.
+-1 -> there isn't a t between [1,10000] that satisfies the equation.
+          
+
+PS1B - bisection_search(n, B, break_value=None, total=0):
+
+-This method is essentially a modified version of the brute_force method. The way sequence is generated and the equation is calculated are the same. 
+-The difference is instead of "Brute Force Search" we use "Bisection Search", which means that instead of iterating through a for loop, we narrow down the possible values in a while loop until we find the smallest value.
+-As the instruction suggested, there is a chance that our first guess might be the value we're looking for, but we can't know that immediately. So, we need to make sure.
+-The way we do that is, when we find a value that satisfies the equation, we store it as min_value.
+-Then, we set 'high', which is our upper bound, as our guess and then modify our guess so that our next guess will be smaller, since we are looking for a smaller value.
+-If our first guess isn't useful, instead of changing 'high', we change 'low', which is our lower bound, so that our next guess will be bigger.
+-There is also the Break_value, which is used when we need to exit the while loop. Basically, it stores our previous guess. 
+-Since we are dealing with integer values only, our program can get stuck in a forever loop where high and low bounds don't change, so the guess doesn't change and we don't get new values.
+-Therefore, when we get the same guess twice in a row, we know that we're going to keep getting that forever.
+-So, if our guess is the same as our break_value, we need to get out of the while loop.
+-To do that we simply use guess != break_value for our while condition.
+-When that happens, if we've found a min_value, we return it.
+-However, if it's still none, that means there is no satisfactory value of t, so we return -1.
+
+INPUTS: Both of the following:
+n -> number of elements in the sequence.
+B -> The value the equation needs to pass.
+
+OUTPUTS: One of the following:
+min_value -> the minimum value of t that satisfies the equation.
+-1 ->there isn't a t between [1,10000] that satisfies the equation.
+
+
+-PS: The reason that break_value and min_value are initialized as None while total starts as 0 is, we can assign a new value to None but we can't increment it. So when we initialize total as None, we get an error.
+
+-----------------------------------------------------------------------
+
+I don't think anyone would bother to read this but in case you see this, I hope you have a nice day :)
